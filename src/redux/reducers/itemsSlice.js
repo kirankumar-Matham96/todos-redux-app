@@ -128,7 +128,7 @@ const itemsSlice = createSlice({
       })
       .addCase(addTodo.fulfilled, (state, action) => {
         state.loading = false;
-        state.todos.push(action.payload);
+        state.todos.unshift(action.payload);
       })
       .addCase(addTodo.rejected, (state, action) => {
         state.loading = false;

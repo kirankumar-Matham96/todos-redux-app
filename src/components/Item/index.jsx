@@ -50,22 +50,36 @@ export const Item = ({ todo }) => {
   return (
     <div className={itemStyles.bgContainer}>
       {edit ? (
-        <form onSubmit={submitHandle}>
+        <form className={itemStyles.formContainer} onSubmit={submitHandle}>
           <input
+            className={itemStyles.input}
             type="text"
             value={updatedTitle}
             onChange={changeTitleHandle}
           />
-          <button type="submit">Update</button>
+          <button className={itemStyles.formButton} type="submit">
+            Update
+          </button>
         </form>
       ) : (
-        <div>
-          <p>{todo.title}</p>
-          <button onClick={togleCompleteHandle}>
-            {todo.completed ? "Completed" : "Pending"}
-          </button>
-          <button onClick={editHandle}>Edit</button>
-          <button onClick={deleteTodoHandle}>Delete</button>
+        <div className={itemStyles.itemContainer}>
+          <p className={itemStyles.itemText}>{todo.title}</p>
+          <div className={itemStyles.btnsContainer}>
+            <button
+              className={
+                todo.completed ? itemStyles.completedBtn : itemStyles.pendingBtn
+              }
+              onClick={togleCompleteHandle}
+            ></button>
+            <button
+              className={itemStyles.editBtn}
+              onClick={editHandle}
+            ></button>
+            <button
+              className={itemStyles.deleteBtn}
+              onClick={deleteTodoHandle}
+            ></button>
+          </div>
         </div>
       )}
     </div>

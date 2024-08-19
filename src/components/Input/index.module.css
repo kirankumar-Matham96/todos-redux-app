@@ -1,0 +1,22 @@
+.formContainer {
+    margin-bottom: 2rem;
+}
+.input {
+  border: 1px solid cyan;
+  background-color: lightcyan;
+  outline: none;
+  padding: 1rem;
+  font-size: 1.3rem;
+  border-radius: 8px;
+}
+.button {
+  border: none;
+  outline: none;
+  padding: 1rem 2rem;
+  margin-left: 1rem;
+  font-size: 1.3rem;
+  border-radius: 8px;
+  background-color: #059dc0;
+  color: white;
+  font-weight: 600;
+}
