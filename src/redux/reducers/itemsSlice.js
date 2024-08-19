@@ -16,6 +16,34 @@ export const getTodos = createAsyncThunk(
   }
 );
 
+export const addTodo = createAsyncThunk(
+  "items/addTodo",
+  async (title, thunkApi) => {
+    try {
+      const data = {
+        userId: 1,
+        title,
+        completed: false,
+      };
+
+      const options = {
+        headers: {
+          "content-type": "application/json",
+        },
+      };
+
+      const resp = await axios.post(
+        "https://jsonplaceholder.typicode.com/todos",
+        data,
+        options
+      );
+      return resp.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
 const INITIAL_STATE = {
   loading: false,
   error: null,
@@ -49,6 +77,17 @@ const itemsSlice = createSlice({
         state.todos = action.payload;
       })
       .addCase(getTodos.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addTodo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addTodo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.todos.push(action.payload);
+      })
+      .addCase(addTodo.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       }),
