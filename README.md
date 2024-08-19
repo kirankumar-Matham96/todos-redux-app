@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# Todo React App (With Redux toolkit)
+
+A simple todo app that will show all the todos available. You can add new todo. Also can edit and delete any todo. The todo status will be displayed by different indicators on each item. The app is built with redux toolkit to maintain a globalized state.
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
