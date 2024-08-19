@@ -1,15 +1,22 @@
-import React from "react";
+import { useEffect } from "react";
 import { Item } from "../Item";
-import { itemsSelector } from "../../redux/reducers/itemsSlice";
-import { useSelector } from "react-redux";
+import { itemsSelector, getTodos } from "../../redux/reducers/itemsSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 export const ItemsContainer = () => {
-  const todos = useSelector(itemsSelector);
+  const { todos, loading, error } = useSelector(itemsSelector);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTodos());
+  }, [dispatch]);
+
   return (
     <div>
-      {todos.map((todo, id) => (
-        <Item key={id} todo={todo} />
-      ))}
+      {loading ? "Loading... " : null}
+      {error
+        ? `Error: ${error}`
+        : todos.map((todo, id) => <Item key={id} todo={todo} />)}
     </div>
   );
 };
