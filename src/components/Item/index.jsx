@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import itemStyles from "./index.module.css";
-import { updateTodo } from "../../redux/reducers/itemsSlice";
+import { updateTodo, deleteTodo } from "../../redux/reducers/itemsSlice";
 import { useDispatch } from "react-redux";
 
 export const Item = ({ todo }) => {
@@ -42,6 +42,11 @@ export const Item = ({ todo }) => {
     setEdit(false);
   };
 
+  const deleteTodoHandle = () => {
+    // todo.id, todo.userId
+    dispatch(deleteTodo(todo.id));
+  };
+
   return (
     <div className={itemStyles.bgContainer}>
       {edit ? (
@@ -59,7 +64,8 @@ export const Item = ({ todo }) => {
           <button onClick={togleCompleteHandle}>
             {todo.completed ? "Completed" : "Pending"}
           </button>
-          <button onClick={editHandle}>edit</button>
+          <button onClick={editHandle}>Edit</button>
+          <button onClick={deleteTodoHandle}>Delete</button>
         </div>
       )}
     </div>

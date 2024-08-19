@@ -74,6 +74,19 @@ export const updateTodo = createAsyncThunk(
   }
 );
 
+export const deleteTodo = createAsyncThunk(
+  "items/deleteTodo",
+  async (id, thunkApi) => {
+    try {
+      // response is an empty object here
+      await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+      return id;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
 const INITIAL_STATE = {
   loading: false,
   error: null,
@@ -137,6 +150,17 @@ const itemsSlice = createSlice({
         });
       })
       .addCase(updateTodo.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteTodo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteTodo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.todos = state.todos.filter((item) => item.id !== action.payload);
+      })
+      .addCase(deleteTodo.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       }),
