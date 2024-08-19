@@ -23,7 +23,6 @@ export const ItemsContainer = () => {
 
   return (
     <div className={itemsContainerStyles.bgContainer}>
-      {loading ? "Loading... " : null}
       {error
         ? `Error: ${error}`
         : todos.map((todo, id) => <Item key={id} todo={todo} />)}
