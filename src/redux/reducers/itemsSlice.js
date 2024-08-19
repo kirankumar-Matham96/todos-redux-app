@@ -44,6 +44,36 @@ export const addTodo = createAsyncThunk(
   }
 );
 
+export const updateTodo = createAsyncThunk(
+  "items/updateTodo",
+  async (item, thunkApi) => {
+    try {
+      const options = {
+        headers: {
+          "content-type": "application/json",
+        },
+      };
+
+      const data = {
+        id: item.id,
+        title: item.title,
+        userId: item.userId,
+        completed: item.completed,
+      };
+
+      const resp = await axios.put(
+        `https://jsonplaceholder.typicode.com/todos/${item.id}`,
+        item,
+        options
+      );
+
+      return resp.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
 const INITIAL_STATE = {
   loading: false,
   error: null,
@@ -88,6 +118,25 @@ const itemsSlice = createSlice({
         state.todos.push(action.payload);
       })
       .addCase(addTodo.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateTodo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateTodo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.todos = state.todos.map((item) => {
+          if (
+            item.id === action.payload.id &&
+            item.userId === action.payload.userId
+          ) {
+            return action.payload;
+          }
+          return item;
+        });
+      })
+      .addCase(updateTodo.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       }),
